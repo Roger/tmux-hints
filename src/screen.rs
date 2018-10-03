@@ -61,21 +61,32 @@ impl Screen {
     }
 
     pub fn prev(&mut self) {
-        self.hints[self.selected].unselect();
-        self.selected += 1;
-        if self.selected > self.hints.len() - 1 {
-            self.selected = 0;
-        }
-        self.hints[self.selected].select();
+        let selected = if self.selected == self.hints.len() - 1 {
+            0
+        } else {
+            self.selected + 1
+        };
+        self.select(selected).unwrap();
     }
 
     pub fn next(&mut self) {
-        self.hints[self.selected].unselect();
-        self.selected = match self.selected {
+        let selected = match self.selected {
             0 => self.hints.len() - 1,
             _ => self.selected - 1,
         };
+        self.select(selected).unwrap();
+    }
+
+    pub fn select(&mut self, number: usize) -> Result<(), String> {
+        if self.hints.len() <= number {
+            return Err(String::from("Hint not found"));
+        };
+
+        self.hints[self.selected].unselect();
+        self.selected = number;
         self.hints[self.selected].select();
+
+        Ok(())
     }
 
     pub fn selected(&self) -> &str {

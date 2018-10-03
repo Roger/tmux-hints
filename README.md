@@ -37,6 +37,7 @@ Once you're inside tmux-hints, keybindings:
 
  * `j`: down
  * `k`: up
+ * `0`-`9`: select by number
  * `p`: paste (insert text into the tmux window)
  * `o`: open link
  * `O`: open link without closing

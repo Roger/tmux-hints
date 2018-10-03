@@ -49,6 +49,11 @@ fn read_loop(screen: &mut Screen) {
                 utils::tmux_run(&["send", screen.selected()]);
                 return;
             },
+            '0'...'9' => {
+                if let Err(error) = screen.select(key.to_digit(10).unwrap() as usize) {
+                    utils::display(&error);
+                }
+            },
             // exit
             'q' => return,
             _ => utils::display(&format!("Unknown key: {}", key)),
