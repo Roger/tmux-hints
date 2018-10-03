@@ -1,0 +1,10 @@
+[package]
+name = "tmux-hints"
+version = "0.1.0"
+authors = ["roger <rogerduran@gmail.com>"]
+
+[dependencies]
+libc = "0.2"
+dirs = "1.0"
+regex = "1"
+termios= "0.3"
