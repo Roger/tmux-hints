@@ -1,10 +1,11 @@
 # tmux-hints
 
-`tmux-hints` is an application to find matches, ie. urls. and navigate them
+`tmux-hints` is an application to find matches, ie. urls and navigate them
 with the keyboard.
 
-It's a rewrite of a previous tool written by me in go[1].
-Inspired by another tool in perl tmux-url-select[2].
+It's a rewrite of a previous tool written by me in go [tmux-url-nav][1].
+
+Inspired by another tool in perl [tmux-url-select][2].
 
 [1]: https://github.com/roger/tmux-url-nav
 [2]: https://github.com/dequis/tmux-url-select
@@ -34,8 +35,8 @@ Where some-key-here is any key you want to use to start url selection.
 
 Once you're inside tmux-hints, keybindings:
 
- * `j` or down arrow: down
- * `k` or up arrow: up
+ * `j`: down
+ * `k`: up
  * `p`: paste (insert text into the tmux window)
  * `o`: open link
  * `O`: open link without closing
@@ -45,4 +46,4 @@ Once you're inside tmux-hints, keybindings:
 
 Q: Why rust?
 
-A: Needed a excuse to do something in it.
+A: Needed a excuse to do something on it.
