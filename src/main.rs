@@ -21,16 +21,12 @@ use std::io::Write;
 
 /// Read input loop
 fn read_loop(screen: &mut Screen) {
-    let mut stdin = io::stdin();
+    let stdin = io::stdin();
+    let mut stdin_handle = stdin.lock();
 
     loop {
         let mut buffer = [0;1];  // read exactly one byte
-        if let Err(e) = stdin.read_exact(&mut buffer) {
-            match e.kind() {
-                io::ErrorKind::WouldBlock => continue,
-                _ => panic!("Can't read input"),
-            }
-        };
+        stdin_handle.read_exact(&mut buffer).expect("Can't read stdin");
 
         let key = buffer[0] as char;
         match key {
