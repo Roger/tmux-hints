@@ -72,11 +72,15 @@ pub fn display(msg: &str) {
 }
 
 pub fn capture_pane() {
-    tmux_run(&["capture-pane", "-eJ"]);
+    tmux_run(&["capture-pane", "-eJb", "tmux-hints-buffer"]);
 }
 
 pub fn get_buffer() -> String {
-    tmux_output(&["show-buffer"]).trim().to_string()
+    tmux_output(&["show-buffer", "-b", "tmux-hints-buffer"]).trim().to_string()
+}
+
+pub fn clear_buffer() {
+    tmux_run(&["delete-buffer", "-b", "tmux-hints-buffer"]);
 }
 
 pub fn clean_string(buffer: &str) -> String {

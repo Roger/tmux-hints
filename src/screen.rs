@@ -29,7 +29,7 @@ impl Screen {
     pub fn new() -> Screen {
         utils::capture_pane();
         let buffer = utils::get_buffer();
-        utils::tmux_run(&["delete-buffer"]);
+        utils::clear_buffer();
         Screen {
             buffer,
             selected: 0,
