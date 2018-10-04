@@ -2,6 +2,7 @@
 name = "tmux-hints"
 version = "0.1.0"
 authors = ["roger <rogerduran@gmail.com>"]
+license = "MIT"
 
 [dependencies]
 libc = "0.2"
