@@ -1,0 +1,23 @@
+language: rust
+
+#The Rust team appreciates testing against the beta and nightly channels, even
+#if you are only targeting stable
+rust:
+  - stable
+  - beta
+  - nightly
+
+# This will runs your tests against all three channels, but any breakage in
+# nightly will not fail the rest of build.
+matrix:
+  allow_failures:
+    - rust: nightly
+  fast_finish: true
+
+
+# Cache your dependencies so they are only recompiled if they or the compiler were upgraded
+cache: cargo
+
+script:
+  - cargo build --verbose --all
+  - cargo test --all
