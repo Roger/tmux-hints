@@ -12,7 +12,10 @@ pub struct Color {
 
 impl Color {
     pub fn paint(&self, text: &str) -> String {
-        let colorstr = format!("\x1B[38;5;{}m\x1B[48;5;{}m", self.foreground, self.background);
+        let colorstr = format!(
+            "\x1B[38;5;{}m\x1B[48;5;{}m",
+            self.foreground, self.background
+        );
         let mut attrs = String::new();
 
         if self.bold {

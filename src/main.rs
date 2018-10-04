@@ -1,23 +1,20 @@
-#![feature(extern_prelude)]
-
+extern crate dirs;
+extern crate libc;
 extern crate regex;
 extern crate termios;
-extern crate libc;
-extern crate dirs;
 
-mod hint;
-mod utils;
 mod color;
+mod hint;
 mod screen;
+mod utils;
 
 use std::env;
 
 use std::io;
-use std::io::{Read};
+use std::io::Read;
 
 use screen::Screen;
 use std::io::Write;
-
 
 /// Read input loop
 fn read_loop(screen: &mut Screen) {
@@ -25,14 +22,21 @@ fn read_loop(screen: &mut Screen) {
     let mut stdin_handle = stdin.lock();
 
     loop {
-        let mut buffer = [0;1];  // read exactly one byte
-        stdin_handle.read_exact(&mut buffer).expect("Can't read stdin");
+        let mut buffer = [0; 1]; // read exactly one byte
+        stdin_handle
+            .read_exact(&mut buffer)
+            .expect("Can't read stdin");
 
         let key = buffer[0] as char;
         match key {
             // movement
             'j' => screen.next(),
             'k' => screen.prev(),
+            '0'...'9' => {
+                if let Err(error) = screen.select(key.to_digit(10).unwrap() as usize) {
+                    utils::display(&error);
+                }
+            }
             // open
             'o' | 'O' => {
                 let selected = screen.selected();
@@ -42,18 +46,13 @@ fn read_loop(screen: &mut Screen) {
                     utils::select_last();
                     return;
                 }
-            },
+            }
             // paste in console
             'p' => {
                 utils::select_last();
                 utils::tmux_run(&["send", screen.selected()]);
                 return;
-            },
-            '0'...'9' => {
-                if let Err(error) = screen.select(key.to_digit(10).unwrap() as usize) {
-                    utils::display(&error);
-                }
-            },
+            }
             // exit
             'q' => return,
             _ => utils::display(&format!("Unknown key: {}", key)),
@@ -76,7 +75,6 @@ fn inner() {
     io::stdout().flush().unwrap();
 
     read_loop(&mut screen);
-
 }
 
 /// Entrypoint, when there's no arguments it starts an inner window in tmux
@@ -90,7 +88,7 @@ fn main() {
         utils::open_inner_window("Hint Select", &arg);
 
     // Capture the output and move to our window
-    } else if args.nth(1).unwrap() == "inner"{
+    } else if args.nth(1).unwrap() == "inner" {
         inner();
     } else {
         println!("Invalid commandline");

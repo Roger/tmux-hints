@@ -1,3 +1,4 @@
+use libc::setsid;
 use regex::Regex;
 use std::ffi::OsStr;
 use std::os::unix::process::CommandExt;
@@ -33,10 +34,9 @@ where
     I: IntoIterator<Item = S>,
     S: AsRef<OsStr>,
 {
-    let out = tmux(args).output().expect(&format!("Can't run command"));
+    let out = tmux(args).output().expect("Can't run command");
     String::from_utf8_lossy(&out.stdout).to_string()
 }
-
 
 pub fn open_url(url: &str) {
     // xdg-open opens urls without http as a file
@@ -49,7 +49,7 @@ pub fn open_url(url: &str) {
     // TODO: add config on how to open
     Command::new("xdg-open")
         .before_exec(|| unsafe {
-            libc::setsid();
+            setsid();
             Ok(())
         }).arg(url)
         .stdout(Stdio::null())
@@ -76,7 +76,9 @@ pub fn capture_pane() {
 }
 
 pub fn get_buffer() -> String {
-    tmux_output(&["show-buffer", "-b", "tmux-hints-buffer"]).trim().to_string()
+    tmux_output(&["show-buffer", "-b", "tmux-hints-buffer"])
+        .trim()
+        .to_string()
 }
 
 pub fn clear_buffer() {
@@ -111,11 +113,10 @@ pub fn get_terminal_size() -> (usize, usize) {
     let result = String::from_utf8_lossy(&out.stdout).to_string();
     let result: Vec<&str> = result.trim().split(' ').collect();
 
-    let size = match result.as_slice() {
+    match result.as_slice() {
         [a, b] => (a.parse().unwrap(), b.parse().unwrap()),
         _ => panic!("stty invalid output"),
-    };
-    size
+    }
 }
 
 pub fn cursor_at(x: usize, y: usize) -> String {

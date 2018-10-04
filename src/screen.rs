@@ -1,11 +1,11 @@
 use hint::Hint;
 use utils;
 
+use regex::Regex;
 use std::io;
 use std::os::unix::io::AsRawFd;
-use regex::Regex;
 
-use termios::*;
+use termios::{tcsetattr, Termios, ECHO, ICANON, TCSANOW};
 
 /// Screen represents the Pane of tmux
 #[derive(Debug)]
@@ -110,7 +110,7 @@ impl Screen {
             if line.is_empty() {
                 continue;
             }
-            offset += (line.len()-1) / width;
+            offset += (line.len() - 1) / width;
             for ma in matcher.find_iter(line) {
                 let start = ma.start();
                 let end = ma.end();
@@ -131,7 +131,7 @@ impl Screen {
             hint.set_prefix(index.to_string());
         }
 
-        if self.hints.len() == 0 {
+        if self.hints.is_empty() {
             Err(())
         } else {
             Ok(())
