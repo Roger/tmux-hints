@@ -106,6 +106,10 @@ impl Screen {
         let mut offset = 0;
         for (i, line) in clean_buffer.lines().enumerate() {
             let y = i + offset;
+            // ignore empty lines
+            if line.is_empty() {
+                continue;
+            }
             offset += (line.len()-1) / width;
             for ma in matcher.find_iter(line) {
                 let start = ma.start();
