@@ -68,7 +68,7 @@ pub fn open_inner_window(_title: &str, command: &str) {
 }
 
 pub fn display(msg: &str) {
-    tmux_run(&["display-message", &format!("[tmux-url-nav] {}", msg)]);
+    tmux_run(&["display-message", &format!("[tmux-hints] {}", msg)]);
 }
 
 pub fn capture_pane() {
