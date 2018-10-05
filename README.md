@@ -22,14 +22,17 @@ Depends on `rust`, `tmux` and `stty`.
 
 ## Installation
 
-Run cargo build and copy/link `target/release/tmux-hints` to somewhere in your
-path.
+From crates.io, just `cargo install tmux-hints` and make sure that cargo bin
+it's in your path.
 
-Add this to your `.tmux.conf`:
+Or from source, runn cargo build and copy/link `target/release/tmux-hints`
+to somewhere in your path.
+
+In both cases, you need to a key binding to your `.tmux.conf`:
 
     bind some-key-here run tmux-hints
 
-Where some-key-here is any key you want to use to start url selection.
+Where some-key-here is any key you want to use to start hints selection.
 
 ## Usage
 
