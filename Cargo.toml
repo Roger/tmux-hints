@@ -5,12 +5,12 @@ readme = "README.md"
 keywords = ["tmux"]
 categories = ["command-line-utilities"]
 repository = "https://github.com/Roger/tmux-hints"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["roger <rogerduran@gmail.com>"]
 license = "MIT"
 
 [badges]
-travis-ci = { repository = "https://github.com/Roger/tmux-hints", branch = "master" }
+travis-ci = { repository = "Roger/tmux-hints", branch = "master" }
 
 [dependencies]
 libc = "0.2"
