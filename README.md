@@ -1,4 +1,4 @@
-# tmux-hints
+# tmux-hints [![Build Status](https://travis-ci.org/Roger/tmux-hints.svg?branch=master)](https://travis-ci.org/Roger/tmux-hints)
 
 `tmux-hints` is an application to find matches, ie. urls and navigate them
 with the keyboard.
