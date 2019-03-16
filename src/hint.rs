@@ -1,5 +1,5 @@
-use color::Color;
-use utils;
+use crate::color::Color;
+use crate::utils;
 
 #[derive(Debug)]
 pub struct Hint {

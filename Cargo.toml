@@ -3,6 +3,7 @@ name = "tmux-hints"
 description = "An application to find matches, ie. urls and navigate them with the keyboard."
 readme = "README.md"
 keywords = ["tmux"]
+edition = "2018"
 categories = ["command-line-utilities"]
 repository = "https://github.com/Roger/tmux-hints"
 version = "0.1.1"
