@@ -1,5 +1,5 @@
-use hint::Hint;
-use utils;
+use crate::hint::Hint;
+use crate::utils;
 
 use regex::Regex;
 use std::io;

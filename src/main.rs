@@ -1,8 +1,3 @@
-extern crate dirs;
-extern crate libc;
-extern crate regex;
-extern crate termios;
-
 mod color;
 mod hint;
 mod screen;
