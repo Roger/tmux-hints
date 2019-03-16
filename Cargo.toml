@@ -14,7 +14,7 @@ license = "MIT"
 travis-ci = { repository = "Roger/tmux-hints", branch = "master" }
 
 [dependencies]
-libc = "0.2"
-dirs = "1.0"
-regex = "1"
-termios= "0.3"
+libc = "0.2.50"
+dirs = "1.0.5"
+regex = "1.1.2"
+termios= "0.3.1"
