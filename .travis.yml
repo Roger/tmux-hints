@@ -6,3 +6,9 @@ rust:
 matrix:
   allow_failures:
     - rust: nightly
+
+# audit dependencies
+before_script:
+  - cargo install --force cargo-audit
+script:
+  - cargo audit
