@@ -44,7 +44,59 @@ Once you're inside tmux-hints, keybindings:
  * `p`: paste (insert text into the tmux window)
  * `o`: open link
  * `O`: open link without closing
+ * `c`: print current configuration
  * `q`: quit
+
+## Configuration
+
+The configuration uses toml format, you need to create a new file in your $XDG_CONFIG_HOME (in most of the *nix ~/.config/) called tmux-hints.toml
+
+### default config
+
+```
+opener = 'xdg-open'
+show_position = true
+
+[hint.unselected]
+background = 0
+foreground = 6
+bold = false
+dim = false
+blink = false
+reverse = false
+hidden = false
+underlined = false
+
+[hint.selected]
+background = 6
+foreground = 0
+bold = false
+dim = false
+blink = false
+reverse = false
+hidden = false
+underlined = false
+
+[position.unselected]
+background = 0
+foreground = 6
+bold = false
+dim = false
+blink = false
+reverse = false
+hidden = false
+underlined = false
+
+[position.selected]
+background = 6
+foreground = 0
+bold = false
+dim = false
+blink = false
+reverse = false
+hidden = false
+underlined = false
+```
 
 ## FAQ
 
