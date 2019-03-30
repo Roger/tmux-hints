@@ -1,3 +1,4 @@
+mod cli;
 mod color;
 mod hint;
 mod screen;
@@ -12,6 +13,9 @@ use std::io::Read;
 use settings::Settings;
 use screen::Screen;
 use std::io::Write;
+
+#[macro_use]
+extern crate clap;
 
 /// Read input loop
 fn read_loop(screen: &mut Screen) {
@@ -77,20 +81,19 @@ fn inner() {
 /// Entrypoint, when there's no arguments it starts an inner window in tmux
 /// calling itself with inner argument
 fn main() {
+    let args = cli::args();
     Settings::init();
-    let mut args = env::args();
-    // Run itself in the new window
-    if args.len() == 1 {
-        let arg = args.nth(0).unwrap();
-        utils::open_inner_window("Hint Select", &arg);
 
-    } else {
-        match args.nth(1).unwrap().as_ref() {
-            // Capture the output and move to our window
-            "inner" => inner(),
-            // Print current config
-            "config" => println!("{}", Settings::serialize()),
-            _ => println!("Invalid commandline"),
-        }
-    }
+    match args.subcommand_name() {
+        Some("inner") => inner(),
+        Some("config") => println!("{}", Settings::serialize()),
+        // Should not happend
+        Some(subcmd) => println!("Invalid subcmand {}", subcmd),
+
+        // Get current binary and re-run with innner command in a new window
+        None => {
+            let binary = env::args().nth(0).unwrap();
+            utils::open_inner_window("Hint Select", &binary);
+        },
+    };
 }
