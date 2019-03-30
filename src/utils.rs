@@ -4,6 +4,8 @@ use std::ffi::OsStr;
 use std::os::unix::process::CommandExt;
 use std::process::{Command, Stdio};
 
+use crate::settings::Settings;
+
 pub fn tmux<I, S>(args: I) -> Command
 where
     I: IntoIterator<Item = S>,
@@ -39,6 +41,8 @@ where
 }
 
 pub fn open_url(url: &str) {
+    let settings = Settings::global();
+
     // xdg-open opens urls without http as a file
     let url = if url.starts_with("www.") {
         format!("http://{}", url)
@@ -46,8 +50,7 @@ pub fn open_url(url: &str) {
         url.into()
     };
 
-    // TODO: add config on how to open
-    Command::new("xdg-open")
+    Command::new(&settings.opener)
         .before_exec(|| unsafe {
             setsid();
             Ok(())

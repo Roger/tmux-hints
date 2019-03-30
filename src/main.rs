@@ -2,12 +2,14 @@ mod color;
 mod hint;
 mod screen;
 mod utils;
+mod settings;
 
 use std::env;
 
 use std::io;
 use std::io::Read;
 
+use settings::Settings;
 use screen::Screen;
 use std::io::Write;
 
@@ -75,17 +77,20 @@ fn inner() {
 /// Entrypoint, when there's no arguments it starts an inner window in tmux
 /// calling itself with inner argument
 fn main() {
+    Settings::init();
     let mut args = env::args();
-
     // Run itself in the new window
     if args.len() == 1 {
         let arg = args.nth(0).unwrap();
         utils::open_inner_window("Hint Select", &arg);
 
-    // Capture the output and move to our window
-    } else if args.nth(1).unwrap() == "inner" {
-        inner();
     } else {
-        println!("Invalid commandline");
+        match args.nth(1).unwrap().as_ref() {
+            // Capture the output and move to our window
+            "inner" => inner(),
+            // Print current config
+            "config" => println!("{}", Settings::serialize()),
+            _ => println!("Invalid commandline"),
+        }
     }
 }

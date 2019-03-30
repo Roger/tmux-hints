@@ -1,4 +1,7 @@
-#[derive(Debug, Default)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Default, Deserialize, Serialize)]
+#[serde(default)]
 pub struct Color {
     pub background: usize,
     pub foreground: usize,
