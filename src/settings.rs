@@ -1,8 +1,8 @@
 use std::fs::File;
 use std::io::Read;
 
-use once_cell::sync::OnceCell;
 use crate::color::Color;
+use once_cell::sync::OnceCell;
 
 use serde::{Deserialize, Serialize};
 
@@ -18,8 +18,14 @@ pub struct Highlight {
 impl Default for Highlight {
     fn default() -> Self {
         Self {
-            unselected: Color { foreground: 6, ..Default::default() },
-            selected: Color { background: 6, ..Default::default() },
+            unselected: Color {
+                foreground: 6,
+                ..Default::default()
+            },
+            selected: Color {
+                background: 6,
+                ..Default::default()
+            },
         }
     }
 }
@@ -66,7 +72,9 @@ impl Settings {
         // Read only if the settings file exists
         // if the toml_str is empty will use defaults for the settings
         if let Ok(mut toml_file) = File::open(file_path) {
-            toml_file.read_to_string(&mut toml_str).expect("Can't read settings");
+            toml_file
+                .read_to_string(&mut toml_str)
+                .expect("Can't read settings");
         }
 
         let settings = toml::from_str(&toml_str).expect("Invalid configuration");

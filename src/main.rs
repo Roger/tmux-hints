@@ -2,16 +2,16 @@ mod cli;
 mod color;
 mod hint;
 mod screen;
-mod utils;
 mod settings;
+mod utils;
 
 use std::env;
 
 use std::io;
 use std::io::Read;
 
-use settings::Settings;
 use screen::Screen;
+use settings::Settings;
 use std::io::Write;
 
 #[macro_use]
@@ -94,6 +94,6 @@ fn main() {
         None => {
             let binary = env::args().nth(0).unwrap();
             utils::open_inner_window("Hint Select", &binary);
-        },
+        }
     };
 }
