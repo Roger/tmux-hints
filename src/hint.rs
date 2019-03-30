@@ -1,3 +1,4 @@
+use crate::settings::Settings;
 use crate::color::Color;
 use crate::utils;
 
@@ -28,10 +29,17 @@ impl Hint {
         }
     }
 
-    fn paint(&self, color: &Color) {
+    fn paint(&self, pos_color: &Color, text_color: &Color) {
         let pos = utils::cursor_at(self.screen_x, self.screen_y);
-        let text = &self.text[self.prefix.len()..self.text.len()];
-        print!("{}{}{}", pos, self.prefix, color.paint(&text));
+
+        if Settings::global().show_position {
+            let prefix = pos_color.paint(&self.prefix);
+            let text = &self.text[self.prefix.len()..self.text.len()];
+            print!("{}{}{}", pos, prefix, text_color.paint(&text));
+        } else {
+            print!("{}{}", pos, text_color.paint(&self.text));
+        }
+
     }
 
     pub fn set_prefix(&mut self, prefix: String) {
@@ -39,21 +47,18 @@ impl Hint {
     }
 
     pub fn select(&self) {
-        let color = Color {
-            foreground: 2,
-            background: 16,
-            blink: true,
-            ..Default::default()
-        };
-        self.paint(&color);
+        let settings = Settings::global();
+        let text_color = &settings.hint.selected;
+        let pos_color = &settings.position.selected;
+
+        self.paint(pos_color, text_color);
     }
 
     pub fn unselect(&self) {
-        let color = Color {
-            foreground: 2,
-            background: 18,
-            ..Default::default()
-        };
-        self.paint(&color);
+        let settings = Settings::global();
+        let text_color = &settings.hint.unselected;
+        let pos_color = &settings.position.unselected;
+
+        self.paint(pos_color, text_color);
     }
 }
