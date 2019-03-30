@@ -1,5 +1,5 @@
-use crate::settings::Settings;
 use crate::color::Color;
+use crate::settings::Settings;
 use crate::utils;
 
 #[derive(Debug)]
@@ -39,7 +39,6 @@ impl Hint {
         } else {
             print!("{}{}", pos, text_color.paint(&self.text));
         }
-
     }
 
     pub fn set_prefix(&mut self, prefix: String) {

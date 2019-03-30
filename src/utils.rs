@@ -54,7 +54,8 @@ pub fn open_url(url: &str) {
         .before_exec(|| unsafe {
             setsid();
             Ok(())
-        }).arg(url)
+        })
+        .arg(url)
         .stdout(Stdio::null())
         .stdin(Stdio::null())
         .stderr(Stdio::null())
