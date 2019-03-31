@@ -55,9 +55,6 @@ impl Screen {
             hint.unselect();
         }
         self.hints[0].select();
-
-        // Avoid flickering by moving here
-        utils::select_window("999999");
     }
 
     pub fn prev(&mut self) {
