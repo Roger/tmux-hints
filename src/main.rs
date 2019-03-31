@@ -75,6 +75,9 @@ fn inner() {
     screen.paint();
     io::stdout().flush().unwrap();
 
+    // Avoid flickering by moving here
+    utils::select_inner_window();
+
     read_loop(&mut screen);
 }
 

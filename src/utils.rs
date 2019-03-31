@@ -6,6 +6,8 @@ use std::process::{Command, Stdio};
 
 use crate::settings::Settings;
 
+const INNER_WINDOW: &str = "999999";
+
 pub fn tmux<I, S>(args: I) -> Command
 where
     I: IntoIterator<Item = S>,
@@ -65,10 +67,10 @@ pub fn open_url(url: &str) {
 
 pub fn open_inner_window(_title: &str, command: &str) {
     let command = format!("{} inner", command);
-    tmux_run(&["new-window", "-dn", "", "-t", "999999", &command]);
+    tmux_run(&["new-window", "-dn", "", "-t", INNER_WINDOW, &command]);
     // Remove status format in new window
-    tmux_run(&["setw", "-qt", "999999", "window-status-format", ""]);
-    tmux_run(&["setw", "-qt", "999999", "window-status-current-format", ""]);
+    tmux_run(&["setw", "-qt", INNER_WINDOW, "window-status-format", ""]);
+    tmux_run(&["setw", "-qt", INNER_WINDOW, "window-status-current-format", ""]);
 }
 
 pub fn display(msg: &str) {
@@ -100,6 +102,10 @@ pub fn clean_string(buffer: &str) -> String {
 
 pub fn select_window(title: &str) {
     tmux_run(&["select-window", "-t", title]);
+}
+
+pub fn select_inner_window() {
+    select_window(INNER_WINDOW);
 }
 
 pub fn select_last() {
