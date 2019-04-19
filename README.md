@@ -18,7 +18,7 @@ Inspired by another tool in perl [tmux-url-select][2].
 
 ## Requirements
 
-Depends on `rust`, `tmux` and `stty`.
+Depends on `rust`, `tmux`.
 
 ## Installation
 

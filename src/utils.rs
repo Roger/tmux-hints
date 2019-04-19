@@ -67,7 +67,7 @@ pub fn open_url(url: &str) {
 }
 
 pub fn open_inner_window(_title: &str, command: &str) {
-    let (width, height) = pane_size().unwrap();
+    let (height, width) = pane_size().unwrap();
     let command = format!("{} inner", command);
     tmux_run(&["new-window", "-dn", "", "-t", INNER_WINDOW, &command]);
     // Remove status format in new window
@@ -100,13 +100,9 @@ pub fn clean_string(buffer: &str) -> String {
     rectrl.replace_all(&buffer, "").to_string()
 }
 
-pub fn select_window(title: &str) {
-    tmux_run(&["select-window", "-t", title]);
-}
-
 pub fn pane_size() -> Option<(String, String)> {
-    let output = tmux_output(&["list-panes", "-F", "#{pane_active},#{pane_width},#{pane_height}"]);
-    let panes: Vec<&str> = output.trim().split("\n").collect();
+    let output = tmux_output(&["list-panes", "-F", "#{pane_active},#{pane_height},#{pane_width}"]);
+    let panes: Vec<&str> = output.trim().split('\n').collect();
     for pane_str in &panes {
         let pane: Vec<&str> = pane_str.split(',').collect();
         if pane[0] == "1" {
@@ -119,23 +115,6 @@ pub fn pane_size() -> Option<(String, String)> {
 
 pub fn swap_pane() {
     tmux_run(&["swap-pane", "-t", INNER_PANE]);
-}
-
-pub fn get_terminal_size() -> (usize, usize) {
-    let out = Command::new("stty")
-        .arg("-F")
-        .arg("/dev/tty")
-        .arg("size")
-        .output()
-        .expect("Can't run stty");
-
-    let result = String::from_utf8_lossy(&out.stdout).to_string();
-    let result: Vec<&str> = result.trim().split(' ').collect();
-
-    match result.as_slice() {
-        [a, b] => (a.parse().unwrap(), b.parse().unwrap()),
-        _ => panic!("stty invalid output"),
-    }
 }
 
 pub fn cursor_at(x: usize, y: usize) -> String {

@@ -29,12 +29,13 @@ impl Screen {
 
     pub fn new() -> Screen {
         utils::capture_pane();
+        let size = utils::pane_size().unwrap();
         let buffer = utils::get_buffer();
         utils::clear_buffer();
         Screen {
             buffer,
             selected: 0,
-            size: utils::get_terminal_size(),
+            size: (size.0.parse().unwrap(), size.1.parse().unwrap()),
             hints: vec![],
         }
     }
