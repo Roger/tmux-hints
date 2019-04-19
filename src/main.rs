@@ -44,18 +44,21 @@ fn read_loop(screen: &mut Screen) {
                 utils::open_url(selected);
                 utils::display(&format!("Opening: {}", selected));
                 if key != 'O' {
-                    utils::select_last();
+                    utils::swap_pane();
                     return;
                 }
             }
             // paste in console
             'p' => {
-                utils::select_last();
+                utils::swap_pane();
                 utils::tmux_run(&["send", screen.selected()]);
                 return;
             }
             // exit
-            'q' => return,
+            'q' => {
+                utils::swap_pane();
+                return;
+            },
             _ => utils::display(&format!("Unknown key: {}", key)),
         }
 
@@ -76,7 +79,7 @@ fn inner() {
     io::stdout().flush().unwrap();
 
     // Avoid flickering by moving here
-    utils::select_inner_window();
+    utils::swap_pane();
 
     read_loop(&mut screen);
 }
