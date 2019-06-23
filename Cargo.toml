@@ -14,12 +14,12 @@ license = "MIT"
 travis-ci = { repository = "Roger/tmux-hints", branch = "master" }
 
 [dependencies]
-libc = "0.2.50"
-dirs = "1.0.5"
+libc = "0.2.58"
+dirs = "2.0.1"
 regex = "1.1.7"
 termios= "0.3.1"
-serde = { version = "1.0", features = ["derive"] }
-toml = "0.4"
-once_cell = "0.1.8"
-clap = "2.32.0"
+serde = { version = "1.0.92", features = ["derive"] }
+toml = "0.5.1"
+once_cell = "0.2.1"
+clap = "2.33.0"
 unicode-width = "0.1.5"

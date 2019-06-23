@@ -6,7 +6,7 @@ use once_cell::sync::OnceCell;
 
 use serde::{Deserialize, Serialize};
 
-static INSTANCE: OnceCell<Settings> = OnceCell::INIT;
+static INSTANCE: OnceCell<Settings> = OnceCell::new();
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(default, deny_unknown_fields)]
