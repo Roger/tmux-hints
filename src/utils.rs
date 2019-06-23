@@ -92,12 +92,8 @@ pub fn clear_buffer() {
 }
 
 pub fn clean_string(buffer: &str) -> String {
-    let rectrl = Regex::new(r"\x1b[^m]*m").unwrap();
-    let reunicode = Regex::new(r"[^\x00-\x7F]").unwrap();
-
-    reunicode
-        .replace_all(&rectrl.replace_all(buffer, ""), " ")
-        .to_string()
+    let rectrl = Regex::new(r"\x1b[^m]*m|\p{Format}").unwrap();
+    rectrl.replace_all(&buffer, "").to_string()
 }
 
 pub fn select_window(title: &str) {

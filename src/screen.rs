@@ -5,6 +5,7 @@ use regex::Regex;
 use std::io;
 use std::os::unix::io::AsRawFd;
 
+use unicode_width::UnicodeWidthStr;
 use termios::{tcsetattr, Termios, ECHO, ICANON, TCSANOW};
 
 /// Screen represents the Pane of tmux
@@ -107,7 +108,7 @@ impl Screen {
             if line.is_empty() {
                 continue;
             }
-            offset += (line.len() - 1) / width;
+            offset += (UnicodeWidthStr::width(line) - 1) / width;
             for ma in matcher.find_iter(line) {
                 let start = ma.start();
                 let end = ma.end();
@@ -116,7 +117,8 @@ impl Screen {
 
                 let start_in_line = start / width;
 
-                let screen_x = start - width * start_in_line;
+                let char_width_offset = UnicodeWidthStr::width(&line[0..start]) - start;
+                let screen_x = char_width_offset + start - width * start_in_line;
                 let screen_y = y + start_in_line;
 
                 self.hints.push(Hint::new(text, screen_x, screen_y));
