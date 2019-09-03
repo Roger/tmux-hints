@@ -20,6 +20,6 @@ regex = "1.1.7"
 termios= "0.3.1"
 serde = { version = "1.0.93", features = ["derive"] }
 toml = "0.5.1"
-once_cell = "0.2.1"
+once_cell = "1.0.2"
 clap = "2.33.0"
 unicode-width = "0.1.5"
