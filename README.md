@@ -16,6 +16,10 @@ Inspired by another tool in perl [tmux-url-select][2].
 
 [3]: https://news.ycombinator.com/item?id=3067434
 
+## Demo
+
+![](https://d.fsck.com.ar/cm0Pv.gif)
+
 ## Requirements
 
 Depends on `rust`, `tmux` and `stty`.
