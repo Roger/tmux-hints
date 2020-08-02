@@ -17,7 +17,7 @@ travis-ci = { repository = "Roger/tmux-hints", branch = "master" }
 libc = "0.2.74"
 dirs = "2.0.2"
 regex = "1.1.7"
-termios= "0.3.1"
+termios= "0.3.2"
 serde = { version = "1.0.93", features = ["derive"] }
 toml = "0.5.3"
 once_cell = "0.2.1"
