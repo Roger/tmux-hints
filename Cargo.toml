@@ -21,5 +21,5 @@ termios= "0.3.1"
 serde = { version = "1.0.93", features = ["derive"] }
 toml = "0.5.3"
 once_cell = "0.2.1"
-clap = "2.33.0"
+clap = "2.33.1"
 unicode-width = "0.1.5"
