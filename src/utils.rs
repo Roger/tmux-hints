@@ -7,6 +7,7 @@ use std::process::{Command, Stdio};
 use crate::settings::Settings;
 
 const INNER_WINDOW: &str = "999999";
+const INNER_PANE: &str = "999999.0";
 
 pub fn tmux<I, S>(args: I) -> Command
 where
@@ -66,10 +67,13 @@ pub fn open_url(url: &str) {
 }
 
 pub fn open_inner_window(_title: &str, command: &str) {
+    let (height, width) = pane_size().unwrap();
     let command = format!("{} inner", command);
     tmux_run(&["new-window", "-dn", "", "-t", INNER_WINDOW, &command]);
     // Remove status format in new window
     tmux_run(&["setw", "-qt", INNER_WINDOW, "window-status-format", ""]);
+    tmux_run(&["setw", "-qt", INNER_WINDOW, "force-height", &height.to_string()]);
+    tmux_run(&["setw", "-qt", INNER_WINDOW, "force-width", &width.to_string()]);
     tmux_run(&["setw", "-qt", INNER_WINDOW, "window-status-current-format", ""]);
 }
 
@@ -96,33 +100,21 @@ pub fn clean_string(buffer: &str) -> String {
     rectrl.replace_all(&buffer, "").to_string()
 }
 
-pub fn select_window(title: &str) {
-    tmux_run(&["select-window", "-t", title]);
+pub fn pane_size() -> Option<(String, String)> {
+    let output = tmux_output(&["list-panes", "-F", "#{pane_active},#{pane_height},#{pane_width}"]);
+    let panes: Vec<&str> = output.trim().split('\n').collect();
+    for pane_str in &panes {
+        let pane: Vec<&str> = pane_str.split(',').collect();
+        if pane[0] == "1" {
+            return Some((pane[1].to_owned(), pane[2].to_owned()));
+        }
+    };
+
+    None
 }
 
-pub fn select_inner_window() {
-    select_window(INNER_WINDOW);
-}
-
-pub fn select_last() {
-    tmux_run(&["last-window"]);
-}
-
-pub fn get_terminal_size() -> (usize, usize) {
-    let out = Command::new("stty")
-        .arg("-F")
-        .arg("/dev/tty")
-        .arg("size")
-        .output()
-        .expect("Can't run stty");
-
-    let result = String::from_utf8_lossy(&out.stdout).to_string();
-    let result: Vec<&str> = result.trim().split(' ').collect();
-
-    match result.as_slice() {
-        [a, b] => (a.parse().unwrap(), b.parse().unwrap()),
-        _ => panic!("stty invalid output"),
-    }
+pub fn swap_pane() {
+    tmux_run(&["swap-pane", "-t", INNER_PANE]);
 }
 
 pub fn cursor_at(x: usize, y: usize) -> String {
